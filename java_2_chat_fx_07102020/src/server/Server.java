@@ -53,6 +53,21 @@ public class Server {
         }
     }
 
+    public void privateMsg(ClientHandler sender, String receiver, String msg) {
+        String message = String.format("[ %s ] private [ %s ]: %s", sender.getNickname(),receiver, msg);
+        for (ClientHandler c : clients) {
+            if(c.getNickname().equals(receiver)){
+                c.sendMsg(message);
+                if (!sender.getNickname().equals(receiver)){
+                    sender.sendMsg(message);
+                }
+                return;
+            }
+
+        }
+        sender.sendMsg(String.format("Server: %s not found", receiver));
+    }
+
     public void subscribe(ClientHandler clientHandler) {
         clients.add(clientHandler);
     }
